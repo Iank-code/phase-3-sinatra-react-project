@@ -6,4 +6,12 @@ class ApplicationController < Sinatra::Base
     { message: "Good luck with your project!" }.to_json
   end
 
+  get "/all" do
+    Todo.all.to_json
+  end
+
+  get '/all/:id' do
+    task = Todo.find(params[:id])
+    task.to_json
+  end
 end
