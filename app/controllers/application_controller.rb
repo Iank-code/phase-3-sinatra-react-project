@@ -50,16 +50,27 @@ class ApplicationController < Sinatra::Base
     task = Todo.find(params[:id])
     task.to_json
   end
+  post '/post' do
+    cat = Category.create(
+      category: params[:category],
+    )
+    todo = Todo.create(
+      name: params[:name],
+      description: params[:description],
+    )
 
-  # post '/post' do
-  #   review = Todo.create(
-  #     name: params[:name],
-  #     description: params[:description],
-  #     category: params[:category],
-  #     # user_id: params[:user_id]
-  #   )
-  #   review.to_json
-  # end
+    content_type :json
+    cat.to_json
+    todo.to_json
+  end
+  patch '/patch/:id' do
+    review = Todo.find(params[:id])
+    review.update(
+      name: params[:name],
+      description: params[:description]
+    )
+    review.to_json
+  end
 
   # post '/register' do
     # user_data = JSON.parse(request.body.string)
