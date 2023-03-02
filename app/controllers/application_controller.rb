@@ -88,4 +88,8 @@ class ApplicationController < Sinatra::Base
     # send a response with the deleted review as JSON
     review.to_json
   end
+
+  get '/credentials' do
+    User.all.to_json
+  end
 end
