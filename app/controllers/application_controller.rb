@@ -51,17 +51,14 @@ class ApplicationController < Sinatra::Base
     task.to_json
   end
   post '/post' do
-    cat = Category.create(
-      category: params[:category],
-    )
+    cat = Category.create(category: params[:category])
     todo = Todo.create(
       name: params[:name],
       description: params[:description],
+      category_id: cat.id
     )
-
     content_type :json
-    cat.to_json
-    todo.to_json
+    { category: cat, todo: todo }.to_json
   end
   patch '/patch/:id' do
     review = Todo.find(params[:id])
