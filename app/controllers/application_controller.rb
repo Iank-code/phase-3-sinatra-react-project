@@ -50,6 +50,16 @@ class ApplicationController < Sinatra::Base
     task = Todo.find(params[:id])
     task.to_json
   end
+  
+  patch '/patch/:id' do
+    review = Todo.find(params[:id])
+    review.update(
+      name: params[:name],
+      description: params[:description]
+    )
+    review.to_json
+  end
+
   post '/post' do
     cat = Category.create(category: params[:category])
     todo = Todo.create(
@@ -60,37 +70,16 @@ class ApplicationController < Sinatra::Base
     content_type :json
     { category: cat, todo: todo }.to_json
   end
-  patch '/patch/:id' do
-    review = Todo.find(params[:id])
-    review.update(
+
+  post '/register' do
+    users = User.create(
       name: params[:name],
-      description: params[:description]
+      email: params[:email],
+      password: params[:password],
+      phone_number: params[:phone_number]
     )
-    review.to_json
+    users.to_json
   end
-
-  # post '/register' do
-    # user_data = JSON.parse(request.body.string)
-    # name = user_data['name']
-    # email = user_data['email']
-    # password = user_data['password']
-    # phone_number = user_data['tel']
-
-    # Encrypt the password using bcrypt
-    # password_digest = BCrypt::Password.create(password)
-
-    # Create a new User record in the database
-    # user = User.create(
-    #   name: name,
-    #   email: email,
-    #   phone_number: phone_number,
-    #   password: password_digest
-    # )
-
-    # Return the user data as a JSON response
-  #   content_type :json
-  #   { id: user.id, name: user.name, email: user.email, phone_number: user.phone_number, password: user.password_digest  }.to_json
-  # end
   delete '/delete/:id' do
     # find the review using the ID
     review = Todo.find(params[:id])
@@ -99,12 +88,4 @@ class ApplicationController < Sinatra::Base
     # send a response with the deleted review as JSON
     review.to_json
   end
-  # patch '/reviews/:id' do
-  #   review = Review.find(params[:id])
-  #   review.update(
-  #     score: params[:score],
-  #     comment: params[:comment]
-  #   )
-  #   review.to_json
-  # end
 end
