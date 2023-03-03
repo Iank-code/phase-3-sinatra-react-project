@@ -31,7 +31,8 @@
 
   
 # end
-
+require 'sinatra/base'
+require 'sinatra/cross_origin'
 
 
 class ApplicationController < Sinatra::Base
@@ -51,16 +52,11 @@ class ApplicationController < Sinatra::Base
     enable :cross_origin
   end
 
+  # Set CORS headers
   before do
     response.headers['Access-Control-Allow-Origin'] = '*'
-  end
-
-  options "*" do
-    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Origin"] = 'http://localhost:3000'
-    # response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    200
+    response.headers['Access-Control-Allow-Methods'] = 'GET, POST, PUT, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type, Authorization'
   end
 
   # @api: Format the json response
