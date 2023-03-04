@@ -1,6 +1,6 @@
 source "https://rubygems.org"
 
-gem 'faker', '< 3.0'
+gem 'faker', '< 3.1'
 
 
 # A DSL for quickly creating web applications
