@@ -52,8 +52,12 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/all" do
-    Todo.all.to_json
+    Todo.all.reverse.to_json
   end
+  # get '/all' do
+  #   todos = Todo.join(:users).where(users.email: params[:email]).select_all(:todos).all
+  #   todos.to_json
+  # end
 
   get '/all/:id' do
     task = Todo.find(params[:id])
