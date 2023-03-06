@@ -2,6 +2,7 @@
 # if our application is running locally in development, in a test environment, or in production
 ENV['RACK_ENV'] ||= "production"
 
+ruby '2.7.4'
 # Require in Gems
 require 'sinatra/activerecord'
 require 'bundler/setup'
