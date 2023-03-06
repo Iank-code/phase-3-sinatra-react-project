@@ -61,7 +61,7 @@ source "https://rubygems.org"
 
 gem 'faker', '< 3.1'
 
-gem 'ruby', '<2.7'
+gem 'ruby', '< 2.7'
 
 
 # A DSL for quickly creating web applications
