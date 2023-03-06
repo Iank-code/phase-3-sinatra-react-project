@@ -43,7 +43,8 @@ class ApplicationController < Sinatra::Base
   end
 
   get "/all" do
-    Todo.all.reverse.to_json
+    todos = Todo.all.reverse
+    json_response(data: todos)
   end
   # get '/all' do
   #   todos = Todo.join(:users).where(users.email: params[:email]).select_all(:todos).all
@@ -72,7 +73,8 @@ class ApplicationController < Sinatra::Base
       category_id: cat.id
     )
     content_type :json
-    { category: cat, todo: todo }.to_json
+    # { category: cat, todo: todo }.to_json
+    json_response(data: cat, todo )
   end
 
   post '/register' do
