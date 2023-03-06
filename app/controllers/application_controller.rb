@@ -66,16 +66,14 @@ class ApplicationController < Sinatra::Base
   end
 
   post '/post' do
-    # cat = Category.create(category: params[:category])
+    cat = Category.create(category: params[:category])
     todo = Todo.create(
       name: params[:name],
       description: params[:description],
-      # category_id: cat.id
+      category_id: cat.id
     )
     content_type :json
-    # { category: cat, todo: todo }.to_json
-    # json_response(data: cat)
-    json_response(data: todo)
+    json_response(data: { category: cat, todo: todo })
   end
 
   post '/register' do
