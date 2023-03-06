@@ -58,7 +58,8 @@
 
 source "https://rubygems.org"
 
-gem 'faker', '<= 2.15.0'
+gem 'faker', '< 3.1'
+
 
 # A DSL for quickly creating web applications
 # https://github.com/sinatra/sinatra
@@ -89,7 +90,7 @@ gem "sinatra-activerecord", "~> 2.0"
 gem "rake", "~> 13.0"
 
 # Provides functionality to interact with a SQLite3 database
-gem "sqlite3", "~> 1.4"
+gem "sqlite3", "~> 1.4.2"
 
 # Require all files in a folder
 gem "require_all", "~> 3.0"
