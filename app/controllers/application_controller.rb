@@ -70,7 +70,7 @@ class ApplicationController < Sinatra::Base
     todo = Todo.create(
       name: params[:name],
       description: params[:description],
-      category_id: cat.id
+      # category_id: cat.id
     )
     content_type :json
     # { category: cat, todo: todo }.to_json
