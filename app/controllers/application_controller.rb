@@ -73,7 +73,7 @@ class ApplicationController < Sinatra::Base
       category_id: cat.id
     )
     content_type :json
-    json_response(data: { category: cat, todo: todo })
+    json_response(data: todo)
   end
 
   post '/register' do
