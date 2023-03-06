@@ -1,22 +1,18 @@
 class ApplicationController < Sinatra::Base
   set :default_content_type, 'application/json'
-  
   # @api: Enable CORS Headers
   configure do
     enable :cross_origin
   end
-
   before do
     response.headers['Access-Control-Allow-Origin'] = '*'
   end
-
   options "*" do
     response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
     response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
     response.headers["Access-Control-Allow-Origin"] = "*"
     200
   end
-
   # @api: Format the json response
   def json_response(code: 200, data: nil)
     status = [200, 201].include?(code) ? "SUCCESS" : "FAILED"
@@ -25,30 +21,25 @@ class ApplicationController < Sinatra::Base
       [ code, { data: data, message: status }.to_json ]
     end
   end
-
-  # @api: Format all common JSON error responses
-  def error_response(code, e)
-    json_response(code: code, data: { error: e.message })
-  end
-
   # @views: Format the erb responses
   def erb_response(file)
     headers['Content-Type'] = 'text/html'
     erb file
   end
-
   # @helper: not found error formatter
   def not_found_response
     json_response(code: 404, data: { error: "You seem lost. That route does not exist." })
   end
-
   # @api: 404 handler
   not_found do
     not_found_response
   end
+
+
   # Add your routes here
   get "/" do
-    { message: "Good luck with your project!" }.to_json
+    # { message: "Good luck with your project!" }.to_json
+    json_response(message: "Good luck with your project!")
   end
 
   get "/all" do
@@ -61,7 +52,7 @@ class ApplicationController < Sinatra::Base
 
   get '/all/:id' do
     task = Todo.find(params[:id])
-    task.to_json
+    json_response(data: task)
   end
   
   patch '/patch/:id' do
@@ -70,7 +61,7 @@ class ApplicationController < Sinatra::Base
       name: params[:name],
       description: params[:description]
     )
-    review.to_json
+    json_response(data: review)
   end
 
   post '/post' do
@@ -91,7 +82,7 @@ class ApplicationController < Sinatra::Base
       password: params[:password],
       phone_number: params[:phone_number]
     )
-    users.to_json
+    json_response(data: users)
   end
   delete '/delete/:id' do
     # find the review using the ID
@@ -99,10 +90,11 @@ class ApplicationController < Sinatra::Base
     # delete the review
     review.destroy
     # send a response with the deleted review as JSON
-    review.to_json
+    json_response(data: review)
   end
 
   get '/credentials' do
-    User.all.to_json
+    users = User.all
+    json_response(data: users)
   end
 end
