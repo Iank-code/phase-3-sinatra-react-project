@@ -1,49 +1,43 @@
-# Phase 3 Project Guidelines
+# Setup
+You can setup this repository by following this manual
 
-## Learning Goals
+You will also need to clone the frontend repository
 
-- Build a web basic API with Sinatra and Active Record to support a React
-  frontend
+    git clone git@github.com:Iank-code/Task-Manager.git
+    cd Task-Manager
+    npm install
 
-## Introduction
+## Clone the repository
+    git clone git@github.com:Iank-code/phase-3-sinatra-react-project.git
+Ensure the ruby gems are setup in your machine
 
-Congrats on getting through all the material for Phase 3! Now's the time to put
-it all together and build something from scratch to reinforce what you know and
-expand your horizons.
+    bundle install
+Perform any pending database migrations
 
-The focus of this project is **building a Sinatra API backend** that uses
-**Active Record** to access and persist data in a database, which will be used
-by a separate **React frontend** that interacts with the database via the API.
+    rake db:migrate
+## Run the application
+rake start
+Open the application from your browser
+http://localhost:9292
+Application
+This application is a simple web API that allows users to:
 
-## Requirements
+  - Register a new account.
 
-For this project, you must:
+  - Log in to existing account.
 
-- Use Active Record to interact with a database.
-- Have at least two models with a one-to-many relationship.
-- At a minimum, set up the following API routes in Sinatra:
-  - create and read actions for both models
-  - full CRUD capability for one of the models: 
-  The update action should be implemented using a form that is 
-  pre-filled with existing values for the object. On submission of 
-  the form, the object should update. Note: Using a like button or 
-  similar will not meet the update requirement.
-- Build a separate React frontend application that interacts with the API to
-  perform CRUD actions.
-- Implement proper front end state management. You should be updating state using a
-  setState function after receiving your response from a POST, PATCH, or DELETE 
-  request. You should NOT be relying on a GET request to update state. 
-- Use good OO design patterns. You should have separate classes for each of your
-  models, and create instance and class methods as necessary. 
-- Routes in your application (both client side and back end) should follow RESTful
-  conventions.
-- Use your back end optimally. Pass JSON for related associations to the front 
-  end from the back end. You should use active record methods in your controller to grab
-  the needed data from your database and provide as JSON to the front end. You
-  should NOT be relying on filtering front end state or a separate fetch request to
-  retrieve related data.
+  - Create TODO items.
 
-For example, build a todo list application with a React frontend interface and a
+  - Update individual TODO items.
+
+  - View all TODO items.
+
+  - Filter TODO items by status.
+
+  - Delete a TODO item.
+
+
+
 Sinatra backend API, where a user can:
 
 - **Create** a new todo
@@ -80,59 +74,49 @@ $ bundle exec rake server
 
 This will run your server on port
 [http://localhost:9292](http://localhost:9292).
+ROUTES
 
-### Frontend Setup
+1. / - Presents a simple welcome message.
 
-Your backend and your frontend should be in **two different repositories**.
+2. /register - Create a new user account.
 
-Create a new repository in a **separate folder** with a React app for your
-frontend. To do this, `cd` out of the backend project directory, and use
-[create-react-app][] to generate the necessary code for your React frontend:
+## REQUEST BODY
+    {
+    "name": "John Doe",
+    "email": "mail@mail.com",
+    "password": "12345678",
+    "confirm password": "12345678",
+    "phone_number": "0712345678"
+    }
 
-```console
-$ npx create-react-app my-app-frontend
-```
+3. /credentials - Log in a user using email and password.
 
-After creating the project locally, you should also
-[create a repository on GitHub][create repo] to host your repo and help
-collaborate, if you're working with a partner.
+## REQUEST BODY
+    {
+    "email": "mail@mail.com",
+    "password": "12345678"
+    }
 
-### Fetch Example
+4. /post - Add a new TODO item.
 
-Your React app should make fetch requests to your Sinatra backend! Here's an
-example:
+## REQUEST BODY
+  {
+  "name": "Make Breakfast",
+  "description": "Prepare milk and cereal",
+  "category": "meak"
+  }
 
-```js
-fetch("http://localhost:9292/test")
-  .then((r) => r.json())
-  .then((data) => console.log(data));
-```
+5. /all - List all TODO items.
 
-## Project Tips
+## RESPONSE SAMPLE
+    {
+      [
+        {id: 2, name: 'last', description: 'esgdh', category_id: 2, created_at: '2023-03-05T19:49:48.112Z', …},
 
-- This project is intended to focus more on the backend than the frontend, so
-  try and keep the React side of things relatively simple. Focus on working with
-  Active Record and performing CRUD actions. What are some interesting queries you can write? What kinds of questions can you ask of your data?
-- Once you have a project idea, come up with a domain model and decide what
-  relationships exist between the models in your application. Use a tool like
-  [dbdiagram.io][] to help visualize your models.
-- Decide on your API endpoints. What data should they return? What kind of CRUD
-  action should they perform? What data do they need from the client?
-- Use [Postman][postman download] to test your endpoints.
-- Use `binding.pry` to debug your requests on the server. It's very helpful to use a
-  `binding.pry` in your controller within a route to see what `params` are being
-  sent.
-- Use the [Network Tab in the Dev Tools][network tab] in the frontend to debug
-  your requests.
+        {id: 1, name: 'first', description: 'sgdgf', category_id: 1, created_at: '2023-03-05T19:49:19.600Z', …}
+      ],
+    "message": "SUCCESS"
+    }
+6. /patch/:id - Update an existing TODO.
 
-## Resources
-
-- [create-react-app][]
-- [dbdiagram.io][]
-- [Postman][postman download]
-
-[create-react-app]: https://create-react-app.dev/docs/getting-started
-[create repo]: https://docs.github.com/en/get-started/quickstart/create-a-repo
-[dbdiagram.io]: https://dbdiagram.io/
-[postman download]: https://www.postman.com/downloads/
-[network tab]: https://developer.chrome.com/docs/devtools/network/
+7. /delete/:id - Delete a TODO item.
